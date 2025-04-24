@@ -1,5 +1,5 @@
 import {
-  Controller, Get, Param, Patch, Delete, Body, UseGuards,
+  Controller, Get, Param, Patch, Delete, Body, UseGuards, Put
 } from '@nestjs/common';
 import { TurisService } from './turis.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -24,7 +24,7 @@ export class TurisController {
     return this.turisService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @Access('turis', 'update')
   update(@Param('id') id: string, @Body() dto: UpdateTurisDto) {
     return this.turisService.update(id, dto);

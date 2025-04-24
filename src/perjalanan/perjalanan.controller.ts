@@ -73,14 +73,14 @@ getCancelRequests() {
 
 @UseGuards(JwtAuthGuard, AccessGuard)
 @Access('perjalanan', 'update')
-@Patch(':id/approve-cancel')
+@Put(':id/approve-cancel')
 approveCancel(@Param('id') id: string) {
   return this.service.approveCancel(id);
 }
 
 @UseGuards(JwtAuthGuard, AccessGuard)
 @Access('perjalanan', 'update')
-@Patch(':id/reject-cancel')
+@Put(':id/reject-cancel')
 rejectCancel(@Param('id') id: string) {
   return this.service.rejectCancel(id);
 }
