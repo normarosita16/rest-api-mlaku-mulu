@@ -148,5 +148,26 @@ async rejectCancel(id: string) {
 }
 
 
+async findPerjalananYangHarusDiselesaikan() {
+  const now = new Date();
+  return this.repo.find({
+    where: {
+      status: 'aktif',
+      tanggalBerakhir: LessThan(now),
+    },
+  });
+}
+
+async tandaiSelesai(id: string) {
+  const perjalanan = await this.repo.findOneBy({ id });
+  if (perjalanan) {
+    perjalanan.status = 'selesai';
+    return this.repo.save(perjalanan);
+  }
+}
+
+
+
+
   
 }
