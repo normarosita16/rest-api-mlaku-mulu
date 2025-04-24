@@ -5,7 +5,7 @@ import { Perjalanan } from './entities/perjalanan.entity';
 import { CreatePerjalananDto } from './dto/create-perjalanan.dto';
 import { UpdatePerjalananDto } from './dto/update-perjalanan.dto';
 import { UsersService } from '../users/users.service';
-import { Between, LessThan, MoreThan } from 'typeorm';
+import { Between, LessThan, FindOptionsWhere } from 'typeorm';
 
 @Injectable()
 export class PerjalananService {
@@ -23,19 +23,16 @@ export class PerjalananService {
   }
 
   async findAllByUser(userId: string, status?: string) {
-    const now = new Date();
-  
-    let whereClause: any = {
+    const whereClause: FindOptionsWhere<any> = {
       user: { id: userId },
     };
   
-    if (status === 'berlangsung') {
-      whereClause.tanggalMulai = LessThan(now);
-      whereClause.tanggalBerakhir = MoreThan(now);
-    } else if (status === 'selesai') {
-      whereClause.tanggalBerakhir = LessThan(now);
-    } else if (status === 'mendatang') {
-      whereClause.tanggalMulai = MoreThan(now);
+    if (status) {
+      whereClause.status = status as
+        | 'aktif'
+        | 'selesai'
+        | 'dibatalkan'
+        | 'menunggu-pembatalan';
     }
   
     return this.repo.find({
@@ -44,6 +41,7 @@ export class PerjalananService {
       relations: ['user'],
     });
   }
+  
   
 
   async findOne(id: string) {

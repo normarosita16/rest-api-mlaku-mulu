@@ -64,7 +64,7 @@ requestCancel(@Param('id') id: string, @Request() req) {
 }
 
 @UseGuards(JwtAuthGuard, AccessGuard)
-@Access('perjalanan', 'read-any')
+@Access('perjalanan', 'read')
 @Get('pembatalan')
 getCancelRequests() {
   return this.service.getPerjalananWithCancelRequest();
