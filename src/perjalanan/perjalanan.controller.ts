@@ -1,6 +1,7 @@
 import {
   Controller, Get, Post, Patch, Delete, Param, Body,
-  UseGuards, Request, Query
+  UseGuards, Request, Query,
+  Put
 } from '@nestjs/common';
 import { PerjalananService } from './perjalanan.service';
 import { CreatePerjalananDto } from './dto/create-perjalanan.dto';
@@ -36,7 +37,7 @@ getByUser(
 }
 
 
-  @Patch(':id')
+  @Put(':id')
   @Access('perjalanan', 'update')
   update(@Param('id') id: string, @Body() dto: UpdatePerjalananDto) {
     return this.service.update(id, dto);
@@ -54,5 +55,35 @@ getByUser(
 getRekomendasiDestinasi() {
   return this.service.getRekomendasiDestinasi();
 }
+
+@UseGuards(JwtAuthGuard, AccessGuard)
+@Access('perjalanan', 'update')
+@Put(':id/request-cancel')
+requestCancel(@Param('id') id: string, @Request() req) {
+  return this.service.requestCancel(id, req.user.id);
+}
+
+@UseGuards(JwtAuthGuard, AccessGuard)
+@Access('perjalanan', 'read-any')
+@Get('pembatalan')
+getCancelRequests() {
+  return this.service.getPerjalananWithCancelRequest();
+}
+
+
+@UseGuards(JwtAuthGuard, AccessGuard)
+@Access('perjalanan', 'update')
+@Patch(':id/approve-cancel')
+approveCancel(@Param('id') id: string) {
+  return this.service.approveCancel(id);
+}
+
+@UseGuards(JwtAuthGuard, AccessGuard)
+@Access('perjalanan', 'update')
+@Patch(':id/reject-cancel')
+rejectCancel(@Param('id') id: string) {
+  return this.service.rejectCancel(id);
+}
+
 
 }

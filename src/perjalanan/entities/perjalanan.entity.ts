@@ -31,5 +31,9 @@ import {
   
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @Column({ default: 'aktif' }) // atau 'berlangsung'
+    status: 'aktif' | 'selesai' | 'dibatalkan' | 'menunggu-pembatalan';
+
   }
   

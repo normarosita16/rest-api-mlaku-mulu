@@ -6,7 +6,7 @@ export const seedRoleAccess = async (dataSource: DataSource) => {
   const roleRepo = dataSource.getRepository(Role);
   const accessRepo = dataSource.getRepository(RoleAccess);
 
-  const roles = await roleRepo.find(); // ambil semua role yang sudah dibuat
+  const roles = await roleRepo.find();
   const roleMap = Object.fromEntries(roles.map((r) => [r.name, r]));
 
   const accessData = [

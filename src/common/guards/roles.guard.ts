@@ -19,7 +19,7 @@ import {
       if (!requiredRoles) return true;
   
       const { user } = context.switchToHttp().getRequest();
-      return requiredRoles.includes(user?.role?.name); // role via relasi
+      return requiredRoles.includes(user?.role?.name);
     }
   }
   

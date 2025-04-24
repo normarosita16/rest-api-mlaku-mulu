@@ -47,7 +47,6 @@ export class RoleAccessService {
     });
   }
 
-  // src/roles/role-access.service.ts
 async update(id: string, dto: UpdateRoleAccessDto) {
   const access = await this.repo.findOne({
     where: { id },

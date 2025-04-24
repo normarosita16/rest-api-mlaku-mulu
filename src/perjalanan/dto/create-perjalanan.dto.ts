@@ -11,5 +11,5 @@ export class CreatePerjalananDto {
   destinasi: string | object;
 
   @IsOptional()
-  userId?: string; // hanya dipakai admin atau pegawai
+  userId?: string;
 }

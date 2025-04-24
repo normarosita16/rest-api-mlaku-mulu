@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Perjalanan } from './entities/perjalanan.entity';
@@ -70,13 +70,12 @@ export class PerjalananService {
   
     return this.repo.find({
       where: {
-        tanggalMulai: Between(now, threeDays), // ← pakai Date langsung!
+        tanggalMulai: Between(now, threeDays), 
       },
       relations: ['user'],
     });
   }
 
-  // src/perjalanan/perjalanan.service.ts
 async getRekomendasiDestinasi() {
   const perjalananList = await this.repo.find(); // bisa tambahkan filter waktu jika perlu
 
@@ -104,6 +103,50 @@ async getRekomendasiDestinasi() {
 
   return result;
 }
+
+async requestCancel(perjalananId: string, userId: string) {
+  const perjalanan = await this.repo.findOne({
+    where: { id: perjalananId },
+    relations: ['user'],
+  });
+
+  if (!perjalanan) throw new NotFoundException('Perjalanan tidak ditemukan');
+  if (perjalanan.user.id !== userId) throw new ForbiddenException('Bukan milik Anda');
+  if (perjalanan.status === 'selesai') throw new BadRequestException('Perjalanan sudah selesai');
+
+  perjalanan.status = 'menunggu-pembatalan';
+  return this.repo.save(perjalanan);
+}
+
+async getPerjalananWithCancelRequest() {
+  return this.repo.find({
+    where: { status: 'menunggu-pembatalan' },
+    relations: ['user'],
+  });
+}
+
+async approveCancel(id: string) {
+  const perjalanan = await this.repo.findOneBy({ id });
+  if (!perjalanan) throw new NotFoundException('Perjalanan tidak ditemukan');
+  if (perjalanan.status !== 'menunggu-pembatalan') {
+    throw new BadRequestException('Perjalanan ini tidak dalam status menunggu pembatalan');
+  }
+
+  perjalanan.status = 'dibatalkan';
+  return this.repo.save(perjalanan);
+}
+
+async rejectCancel(id: string) {
+  const perjalanan = await this.repo.findOneBy({ id });
+  if (!perjalanan) throw new NotFoundException('Perjalanan tidak ditemukan');
+  if (perjalanan.status !== 'menunggu-pembatalan') {
+    throw new BadRequestException('Perjalanan ini tidak dalam status menunggu pembatalan');
+  }
+
+  perjalanan.status = 'aktif';
+  return this.repo.save(perjalanan);
+}
+
 
   
 }

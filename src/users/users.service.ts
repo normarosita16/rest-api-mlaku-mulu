@@ -33,13 +33,13 @@ export class UsersService {
     return this.userRepo.remove(user);
   }
 
-  // util: find by email for auth
+
   findByEmail(email: string) {
     return this.userRepo.findOne({ where: { email }, relations: ['role'] });
   }
 
   createUser(data: Partial<User>) {
-    return this.userRepo.create(data); // ✅ menghasilkan instance dari User
+    return this.userRepo.create(data); 
   }
   
   save(user: User) {
