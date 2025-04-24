@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { RoleAccess } from './entities/role-access.entity';
 import { CreateRoleAccessDto } from './dto/create-role-access.dto';
 import { Role } from './entities/role.entity';
+import { UpdateRoleAccessDto } from './dto/update-role-access.dto';
+
 
 @Injectable()
 export class RoleAccessService {
@@ -44,5 +46,23 @@ export class RoleAccessService {
       order: { role: { name: 'ASC' } },
     });
   }
+
+  // src/roles/role-access.service.ts
+async update(id: string, dto: UpdateRoleAccessDto) {
+  const access = await this.repo.findOne({
+    where: { id },
+    relations: ['role'],
+  });
+
+  if (!access) {
+    throw new Error('Role Access tidak ditemukan');
+  }
+
+  if (dto.resource) access.resource = dto.resource;
+  if (dto.action) access.action = dto.action;
+
+  return this.repo.save(access);
+}
+
   
 }

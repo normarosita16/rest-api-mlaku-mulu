@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Put, Param } from '@nestjs/common';
 import { RoleAccessService } from './role-access.service';
 import { CreateRoleAccessDto } from './dto/create-role-access.dto';
+import { UpdateRoleAccessDto } from './dto/update-role-access.dto';
 
 @Controller('role-access')
 export class RoleAccessController {
@@ -19,6 +20,11 @@ export class RoleAccessController {
   @Get('all')
 findAll() {
   return this.service.findAll();
+}
+
+@Put(':id')
+update(@Param('id') id: string, @Body() dto: UpdateRoleAccessDto) {
+  return this.service.update(id, dto);
 }
 
 }
