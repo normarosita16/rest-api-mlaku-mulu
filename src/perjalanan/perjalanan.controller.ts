@@ -1,6 +1,6 @@
 import {
   Controller, Get, Post, Patch, Delete, Param, Body,
-  UseGuards, Request
+  UseGuards, Request, Query
 } from '@nestjs/common';
 import { PerjalananService } from './perjalanan.service';
 import { CreatePerjalananDto } from './dto/create-perjalanan.dto';
@@ -27,10 +27,14 @@ export class PerjalananController {
   }
 
   @Get('user/:userId')
-  @Access('perjalanan', 'read')
-  getByUser(@Param('userId') userId: string) {
-    return this.service.findAllByUser(userId);
-  }
+@Access('perjalanan', 'read')
+getByUser(
+  @Param('userId') userId: string,
+  @Query('status') status?: string,
+) {
+  return this.service.findAllByUser(userId, status);
+}
+
 
   @Patch(':id')
   @Access('perjalanan', 'update')

@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PerjalananModule } from './perjalanan/perjalanan.module';
 import { RolesModule } from './roles/roles.module';
+import { ScheduleModule } from '@nestjs/schedule';
 import { User } from './users/entities/user.entity';
 import { Perjalanan } from './perjalanan/entities/perjalanan.entity';
 import { Role } from './roles/entities/role.entity';
@@ -25,7 +26,8 @@ import { RoleAccess } from './roles/entities/role-access.entity';
     AuthModule,
     UsersModule,
     PerjalananModule,
-    RolesModule
+    RolesModule,
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}
