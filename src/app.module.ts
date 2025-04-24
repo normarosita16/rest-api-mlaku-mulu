@@ -4,8 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PerjalananModule } from './perjalanan/perjalanan.module';
+import { RolesModule } from './roles/roles.module';
 import { User } from './users/entities/user.entity';
 import { Perjalanan } from './perjalanan/entities/perjalanan.entity';
+import { Role } from './roles/entities/role.entity';
 
 @Module({
   imports: [
@@ -16,12 +18,13 @@ import { Perjalanan } from './perjalanan/entities/perjalanan.entity';
       username: 'postgres',
       password: 'root',
       database: 'rest_api_mlaku_mulu',
-      entities: [User, Perjalanan],
+      entities: [Role, User, Perjalanan],
       synchronize: true, // ganti false di production
     }),
     AuthModule,
     UsersModule,
     PerjalananModule,
+    RolesModule
   ],
 })
 export class AppModule {}
