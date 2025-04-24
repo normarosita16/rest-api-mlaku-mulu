@@ -47,4 +47,12 @@ getByUser(
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+
+@UseGuards(JwtAuthGuard, AccessGuard)
+@Access('perjalanan', 'read')
+@Get('rekomendasi')
+getRekomendasiDestinasi() {
+  return this.service.getRekomendasiDestinasi();
+}
+
 }

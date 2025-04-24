@@ -75,5 +75,35 @@ export class PerjalananService {
       relations: ['user'],
     });
   }
+
+  // src/perjalanan/perjalanan.service.ts
+async getRekomendasiDestinasi() {
+  const perjalananList = await this.repo.find(); // bisa tambahkan filter waktu jika perlu
+
+  const countMap = new Map<string, number>();
+
+  for (const p of perjalananList) {
+    let destinasiStr = '';
+
+    if (typeof p.destinasi === 'string') {
+      destinasiStr = p.destinasi;
+    } else if (typeof p.destinasi === 'object') {
+      // ambil kota atau gabungan jika kompleks
+      destinasiStr = p.destinasi.kota ?? JSON.stringify(p.destinasi);
+    }
+
+    if (destinasiStr) {
+      countMap.set(destinasiStr, (countMap.get(destinasiStr) || 0) + 1);
+    }
+  }
+
+  // Ubah ke array dan urutkan dari yang terbanyak
+  const result = Array.from(countMap.entries())
+    .map(([destinasi, count]) => ({ destinasi, count }))
+    .sort((a, b) => b.count - a.count);
+
+  return result;
+}
+
   
 }
