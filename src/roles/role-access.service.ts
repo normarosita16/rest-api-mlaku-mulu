@@ -37,4 +37,12 @@ export class RoleAccessService {
       .where('role.name = :roleName AND access.resource = :resource', { roleName, resource })
       .getMany();
   }
+
+  async findAll() {
+    return this.repo.find({
+      relations: ['role'],
+      order: { role: { name: 'ASC' } },
+    });
+  }
+  
 }

@@ -15,4 +15,10 @@ export class RoleAccessController {
   find(@Query('role') role: string, @Query('resource') resource: string) {
     return this.service.findByRoleAndResource(role, resource);
   }
+
+  @Get('all')
+findAll() {
+  return this.service.findAll();
+}
+
 }
