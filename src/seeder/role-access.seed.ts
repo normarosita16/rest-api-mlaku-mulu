@@ -16,6 +16,7 @@ export const seedRoleAccess = async (dataSource: DataSource) => {
     { role: roleMap['pegawai'], resource: 'perjalanan', action: 'create' },
     { role: roleMap['pegawai'], resource: 'perjalanan', action: 'update' },
     { role: roleMap['pegawai'], resource: 'perjalanan', action: 'delete' },
+    { role: roleMap['pegawai'], resource: 'perjalanan', action: 'read' },
     { role: roleMap['pegawai'], resource: 'turis', action: 'read' },
     { role: roleMap['pegawai'], resource: 'turis', action: 'update' },
     { role: roleMap['pegawai'], resource: 'turis', action: 'delete' },
