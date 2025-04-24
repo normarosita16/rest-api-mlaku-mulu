@@ -14,8 +14,8 @@ export class PerjalananService {
     private usersService: UsersService,
   ) {}
 
-  async create(dto: CreatePerjalananDto, currentUserId: string, isPegawai: boolean) {
-    const userId = isPegawai && dto.userId ? dto.userId : currentUserId;
+  async create(dto: CreatePerjalananDto, currentUserId: string) {
+    const userId = true && dto.userId ? dto.userId : currentUserId;
     const user = await this.usersService.findOne(userId);
     const perjalanan = this.repo.create({ ...dto, user });
     return this.repo.save(perjalanan);

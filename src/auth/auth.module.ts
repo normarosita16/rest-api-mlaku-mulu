@@ -1,4 +1,3 @@
-// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -7,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { Role } from '../roles/entities/role.entity';
+import { User } from '../users/entities/user.entity'; // Tambahkan ini
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -17,7 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       secret: 'jwt_secret_key',
       signOptions: { expiresIn: '1d' },
     }),
-    TypeOrmModule.forFeature([Role]),
+    TypeOrmModule.forFeature([Role, User]), // Tambahkan User di sini
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
