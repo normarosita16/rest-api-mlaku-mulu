@@ -8,6 +8,7 @@ import { RolesModule } from './roles/roles.module';
 import { User } from './users/entities/user.entity';
 import { Perjalanan } from './perjalanan/entities/perjalanan.entity';
 import { Role } from './roles/entities/role.entity';
+import { RoleAccess } from './roles/entities/role-access.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { Role } from './roles/entities/role.entity';
       username: 'postgres',
       password: 'root',
       database: 'rest_api_mlaku_mulu',
-      entities: [Role, User, Perjalanan],
+      entities: [Role, User, Perjalanan, RoleAccess],
       synchronize: true, // ganti false di production
     }),
     AuthModule,
